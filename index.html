@@ -702,11 +702,19 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
 .barra-enl a:hover{border-bottom-color:rgba(5,7,6,.35)}
 .barra-enl a.aqui{border-bottom-color:var(--tinta)}
 .barra :focus-visible{outline-color:var(--tinta);outline-offset:-2px}
+/* Reproductor: va aparte de las secciones, con fondo propio */
+.li-repro{display:flex;align-items:center;margin-left:.9rem}
+.barra-enl a.enl-repro{
+  min-height:32px;padding:0 .8rem;border-radius:999px;border-bottom:0;
+  background:var(--tinta);color:var(--azafran);font-weight:600
+}
+.barra-enl a.enl-repro:hover{background:var(--tinta-3)}
+.barra .enl-repro:focus-visible{outline-offset:2px}
 
 
 @media(max-width:759px){
   html{scroll-padding-top:6.4rem}
-  .barra-int{flex-direction:column;align-items:stretch;gap:0;padding-top:.35rem;min-height:0}
+  .barra-int{flex-direction:column;align-items:stretch;gap:0;padding-top:.35rem;min-height:0;padding-right:max(.5rem, env(safe-area-inset-right))}
   .marca{font-size:1rem;padding:.1rem 0 .15rem}
   .barra-enl{
     overflow-x:auto;gap:.1rem;
@@ -714,7 +722,10 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
     border-top:1px solid rgba(5,7,6,.18)
   }
   .barra-enl::-webkit-scrollbar{display:none}
-  .barra-enl a{min-height:42px;padding:0 .5rem;font-size:.813rem}
+  .barra-enl a{min-height:42px;padding:0 .42rem;font-size:.813rem}
+  /* En teléfono la píldora va en la fila de las secciones, al final a la derecha */
+  .li-repro{margin-left:auto;padding-left:.3rem}
+  .barra-enl a.enl-repro{min-height:28px;padding:0 .6rem;font-size:.75rem}
   .barra-enl li:first-child a{padding-left:0}
 }
 
@@ -794,7 +805,7 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
       <li><a href="#ritmos">Ritmos</a></li>
       <li><a href="#claves">Claves</a></li>
       <li><a href="#canciones">Canciones</a></li>
-      <li><a href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span aria-hidden="true" style="margin-left:.25rem;font-size:.85em">↗</span></a></li>
+      <li class="li-repro"><a class="enl-repro" href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span aria-hidden="true" style="margin-left:.25rem;font-size:.85em">↗</span></a></li>
     </ul>
   </div>
 </nav>
