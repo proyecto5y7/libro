@@ -710,6 +710,13 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
 }
 .barra-enl a.enl-repro:hover{background:var(--tinta-3)}
 .barra .enl-repro:focus-visible{outline-offset:2px}
+/* En pantallas anchas la píldora va en la esquina derecha de la barra */
+@media(min-width:760px){
+  .li-repro{position:absolute;top:50%;right:max(var(--e3), env(safe-area-inset-right));transform:translateY(-50%);margin:0}
+}
+@media(min-width:760px) and (max-width:1480px){
+  .barra-int{padding-right:calc(max(var(--e3), env(safe-area-inset-right)) + 8.5rem)}
+}
 
 
 @media(max-width:759px){
