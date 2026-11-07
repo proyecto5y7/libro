@@ -721,7 +721,12 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
   display:flex;align-items:flex-start;justify-content:space-between;
   gap:var(--e3);flex-wrap:wrap;margin-bottom:var(--e3)
 }
-.pestanas{display:flex;gap:.3rem;flex:none;padding-top:.35rem}
+.pestanas{display:flex;gap:.3rem;flex:none}
+/* Las pestañas quedan pegadas bajo la barra mientras se recorre la rueda */
+.barra-pest{
+  position:sticky;top:var(--alto-barra,3.5rem);z-index:40;
+  background:var(--tinta);padding:.55rem 0;margin-bottom:var(--e3)
+}
 .pest{
   min-height:44px;padding:.55rem 1.05rem;border-radius:999px;
   font-size:.938rem;font-weight:600;color:#E6E2DA;
@@ -821,7 +826,7 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
     <div class="intro-dos">
       <div>
         <p class="rotulo">Por qué 5 y 7</p>
-        <h2 class="intro-titulo">Casi toda la música bailable de América Latina cabe en métricas binarias o ternarias. <em>Este manual las saca de ahí.</em></h2>
+        <h2 class="intro-titulo">Casi toda la música bailable de América Latina está compuesta en métricas binarias o ternarias. <em>Este manual las saca de ahí.</em></h2>
       </div>
       <div class="intro-lado">
         <p class="parrafo">Hay canciones latinoamericanas en estas métricas, pero casi ningún género construido sobre ellas. En otras culturas son terreno común:</p>
@@ -833,11 +838,11 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
         <div class="dos-familias">
           <div>
             <h3><span class="kal">Kal<span class="o">ö</span>te</span> de Monte</h3>
-            <p>Ritmos en 5 · bribri, «fiesta en la que se baila»</p>
+            <p>Ritmos en 5 · bribri, <span class="kal">kal<span class="o">ö</span>te</span> «fiesta en la que se baila»</p>
           </div>
           <div>
             <h3>Convite de Diriá</h3>
-            <p>Ritmos en 7 · chorotega, «colina pequeña»</p>
+            <p>Ritmos en 7 · chorotega, diriá «colina pequeña»</p>
           </div>
         </div>
       </div>
@@ -934,13 +939,16 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
         <p class="rotulo">Escritura circular</p>
         <h2 class="intro-titulo" style="color:#F3F0EA;max-width:22ch">La rueda gira, la clave suena.</h2>
       </div>
+    </div>
+
+    <p class="parrafo medida" id="introClaves" style="margin-bottom:var(--e3)">Elegí una métrica y una clave compuesta. La marcha con la que caminamos es un pulso binario: al dividir los ritmos de 5 y 7 en dos partes los llevamos a ese lenguaje binario, donde el baile se vuelve natural.</p>
+
+    <div class="barra-pest">
       <div class="pestanas" role="tablist" aria-label="Modo de la rueda">
         <button class="pest" id="pestEscuchar" role="tab" aria-selected="true" aria-controls="panelRueda" data-pest="escuchar">Escuchar</button>
         <button class="pest" id="pestArmar" role="tab" aria-selected="false" aria-controls="panelRueda" data-pest="armar">Armá la tuya</button>
       </div>
     </div>
-
-    <p class="parrafo medida" id="introClaves" style="margin-bottom:var(--e5)">Elegí una métrica y una clave compuesta. La marcha con la que caminamos es un pulso binario: al dividir los ritmos de 5 y 7 en dos partes los llevamos a ese lenguaje binario, donde el baile se vuelve natural.</p>
 
     <div class="lab" id="panelRueda" role="tabpanel" aria-labelledby="pestEscuchar">
       <div>
@@ -1105,15 +1113,15 @@ const CANCIONES = [
     ritmo:"Kalö\u0300te de Monte · Quintú",
     video:"aAQWd0la-2I", lista:"" },
   { titulo:"La niña sabe lo que quiere", grupo:"Grupo 5 y 7 · Daniel Cuenca y Rafael Vargas",
-    ritmo:"Quintí cáscara de timbal",                     video:"", lista:"" },
+    ritmo:"Quintí cáscara de timbal",                     video:"F74icEOXyx8", lista:"" },
   { titulo:"Quito piano y trombón",      grupo:"Grupo 5 y 7",
-    ritmo:"Kalö\u0300te de Monte · Quinto",              video:"", lista:"" },
+    ritmo:"Kalö\u0300te de Monte · Quinto",              video:"E5d5ZcfM44c", lista:"" },
   { titulo:"Quinta desde el monte",      grupo:"Grupo 5 y 7",
-    ritmo:"Quinta de clave abierta",                      video:"", lista:"" },
+    ritmo:"Quinta de clave abierta",                      video:"WnpPGD7Rp3I", lista:"" },
   { titulo:"Quinto en descarga",         grupo:"Grupo 5 y 7",
-    ritmo:"Quinto 4 de 5",                                video:"", lista:"" },
+    ritmo:"Quinto 4 de 5",                                video:"PCJxrPGM9EM", lista:"" },
   { titulo:"PAL alma en pena",           grupo:"Grupo 5 y 7",
-    ritmo:"Quinta de clave completa",                     video:"", lista:"" },
+    ritmo:"Quinta de clave completa",                     video:"VFfftBixPrg", lista:"" },
   { titulo:"Esponjosis del Brein",       grupo:"Grupo Sonámbulo Psicotropical",
     ritmo:"Convite de Diriá · Séptima 4 - 3 modificada",
     video:"9if_nuYnYGc", lista:"OLAK5uy_me2FIN-sqBYyUvwWP5ZbV8nICwJxvt-wQ" },
@@ -1900,14 +1908,16 @@ const COMPRA = "";   /* p. ej. "https://..." */
 
   /* --- el carrusel: un video a la vez --- */
   /* Orden: primero el disco completo, luego las grabaciones sueltas y al
-     final las canciones que ya tengan su id de YouTube. */
+     final las canciones que ya tengan su id de YouTube. La primera pista del
+     disco es "La niña sabe lo que quiere": su video es el del disco y no se
+     repite como diapositiva aparte. */
   const VIDEOS = [
     { id:ALBUM.id, lista:ALBUM.lista, titulo:ALBUM.titulo, nota:ALBUM.nota },
     ...OTRAS_GRABACIONES.map((v, i) => ({
       id:v.id, lista:v.lista,
       titulo:v.titulo || `Grabaci\u00f3n ${i + 1}`,
       nota:v.nota || "Pendiente de t\u00edtulo" })),
-    ...CANCIONES.filter(c => c.video).map(c => ({
+    ...CANCIONES.filter(c => c.video && c.video !== ALBUM.id).map(c => ({
       id:c.video, lista:c.lista, titulo:c.titulo, nota:`${c.grupo} \u00b7 ${c.ritmo}` }))
   ];
 
@@ -2499,6 +2509,15 @@ dibujarRueda(); dibujarCifradoActual();
 })();
 
 
+
+/* Altura real de la barra superior, para pegar las pestañas justo debajo */
+(function(){
+  const b = document.querySelector(".barra");
+  if(!b) return;
+  const f = () => document.documentElement.style.setProperty("--alto-barra", b.offsetHeight + "px");
+  f(); addEventListener("resize", f);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(f);
+})();
 </script>
 </body>
 </html>
