@@ -345,6 +345,8 @@ input[type=range]{width:100%;accent-color:var(--azafran);height:26px}
 /* ============ PIE ============ */
 .pie{background:var(--tinta);color:#B7B2A8;padding:var(--e5) var(--e3);font-size:.875rem}
 .pie a{color:var(--azafran)}
+.pie .credito{margin-top:var(--e4);padding-top:var(--e3);border-top:1px solid rgba(255,255,255,.12);font-size:.813rem;color:#9C978D}
+.pie .credito b{color:#EDEAE4;font-weight:600}
 .pie h2{color:#EDEAE4;font-size:1.5rem;margin-bottom:var(--e2)}
 
 @media(prefers-reduced-motion:reduce){
@@ -700,11 +702,24 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
 .barra-enl a:hover{border-bottom-color:rgba(5,7,6,.35)}
 .barra-enl a.aqui{border-bottom-color:var(--tinta)}
 .barra :focus-visible{outline-color:var(--tinta);outline-offset:-2px}
+/* Botón fijo al reproductor, siempre visible en la barra */
+.barra-int{position:relative}
+.barra-enl{margin-left:auto}
+.barra-repro{
+  flex:none;display:inline-flex;align-items:center;gap:.35rem;min-height:38px;padding:0 1rem;
+  border-radius:999px;background:var(--tinta);color:var(--azafran);
+  font-size:.813rem;font-weight:600;white-space:nowrap;transition:background .16s
+}
+.barra-repro:hover{background:var(--tinta-3)}
+.barra .barra-repro:focus-visible{outline-color:var(--tinta);outline-offset:2px}
 
 @media(max-width:759px){
   html{scroll-padding-top:6.4rem}
   .barra-int{flex-direction:column;align-items:stretch;gap:0;padding-top:.35rem;min-height:0}
-  .marca{font-size:1rem;padding:.1rem 0 .15rem}
+  .marca{font-size:1rem;padding:.1rem 0 .15rem;min-height:40px;display:flex;align-items:center;align-self:flex-start}
+  .barra-enl{margin-left:0}
+  .barra-repro{position:absolute;top:.35rem;right:max(var(--e3), env(safe-area-inset-right));min-height:38px;padding:0 .85rem}
+  .rc-largo{display:none}
   .barra-enl{
     overflow-x:auto;gap:.1rem;
     scrollbar-width:none;-webkit-overflow-scrolling:touch;
@@ -791,6 +806,7 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
       <li><a href="#claves">Claves</a></li>
       <li><a href="#canciones">Canciones</a></li>
     </ul>
+    <a class="barra-repro" href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span class="rc-largo"> completo</span> <span aria-hidden="true">↗</span></a>
   </div>
 </nav>
 
@@ -1084,6 +1100,7 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
     <h2><span class="kal">Kal<span class="o">ö</span>te</span> de Monte y Convite de Diriá</h2>
     <p style="max-width:44ch">Creación de ritmos bailables latinoamericanos en métricas irregulares (5 y 7).<br>Texto, ritmos y notación: <b style="color:#EDEAE4">Daniel Cuenca Alpízar</b>.</p>
     <p style="margin-top:var(--e3);font-size:.75rem;color:#7E796F">Las páginas reproducidas pertenecen al manual y son propiedad de su autor.</p>
+    <p class="credito">Sitio web diseñado y desarrollado por <b>Noah Cuenca Chacón</b> · <a href="https://divende.com" target="_blank" rel="noopener">Divende</a></p>
   </div>
 </footer>
 
