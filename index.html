@@ -702,31 +702,20 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
 .barra-enl a:hover{border-bottom-color:rgba(5,7,6,.35)}
 .barra-enl a.aqui{border-bottom-color:var(--tinta)}
 .barra :focus-visible{outline-color:var(--tinta);outline-offset:-2px}
-/* Botón fijo al reproductor, siempre visible en la barra */
-.barra-int{position:relative}
-.barra-enl{margin-left:auto}
-.barra-repro{
-  flex:none;display:inline-flex;align-items:center;gap:.35rem;min-height:38px;padding:0 1rem;
-  border-radius:999px;background:var(--tinta);color:var(--azafran);
-  font-size:.813rem;font-weight:600;white-space:nowrap;transition:background .16s
-}
-.barra-repro:hover{background:var(--tinta-3)}
-.barra .barra-repro:focus-visible{outline-color:var(--tinta);outline-offset:2px}
+
 
 @media(max-width:759px){
   html{scroll-padding-top:6.4rem}
   .barra-int{flex-direction:column;align-items:stretch;gap:0;padding-top:.35rem;min-height:0}
-  .marca{font-size:1rem;padding:.1rem 0 .15rem;min-height:40px;display:flex;align-items:center;align-self:flex-start}
-  .barra-enl{margin-left:0}
-  .barra-repro{position:absolute;top:.35rem;right:max(var(--e3), env(safe-area-inset-right));min-height:38px;padding:0 .85rem}
-  .rc-largo{display:none}
+  .marca{font-size:1rem;padding:.1rem 0 .15rem}
   .barra-enl{
     overflow-x:auto;gap:.1rem;
     scrollbar-width:none;-webkit-overflow-scrolling:touch;
     border-top:1px solid rgba(5,7,6,.18)
   }
   .barra-enl::-webkit-scrollbar{display:none}
-  .barra-enl a{min-height:42px;padding:0 .6rem;font-size:.813rem}
+  .barra-enl a{min-height:42px;padding:0 .5rem;font-size:.813rem}
+  .barra-enl li:first-child a{padding-left:0}
 }
 
 /* ==========================================================================
@@ -805,8 +794,8 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
       <li><a href="#ritmos">Ritmos</a></li>
       <li><a href="#claves">Claves</a></li>
       <li><a href="#canciones">Canciones</a></li>
+      <li><a href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span aria-hidden="true" style="margin-left:.25rem;font-size:.85em">↗</span></a></li>
     </ul>
-    <a class="barra-repro" href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span class="rc-largo"> completo</span> <span aria-hidden="true">↗</span></a>
   </div>
 </nav>
 
