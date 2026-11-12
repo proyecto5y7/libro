@@ -524,9 +524,38 @@ input[type=range]{width:100%;accent-color:var(--azafran);height:26px}
 .opc-1:hover .opc-sub{color:rgba(5,7,6,.7)}
 .opc-pendiente{opacity:.55}
 .opc-tit{font-weight:600;font-size:.938rem}
+.opc-tit-grande{font-size:1.125rem}
 .opc-sub{font-size:.75rem;color:var(--gris-claro)}
 .opc-1 .opc-sub{color:var(--azafran)}
 .modal-pie{font-size:.75rem;color:var(--gris);margin:var(--e3) 0 0;font-style:italic}
+.modal{max-height:calc(100dvh - 2rem);overflow-y:auto}
+/* Donaciones: separador con texto, recuadro amarillo y dos botones */
+.modal-sep{
+  display:flex;align-items:center;gap:.7rem;margin:var(--e3) 0 var(--e2);
+  font-size:.688rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gris-claro)
+}
+.modal-sep::before,.modal-sep::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.15)}
+.donar-caja{
+  padding:1rem;border-radius:7px;border:1px solid rgba(250,177,10,.55);
+  background:linear-gradient(160deg,rgba(250,177,10,.2),rgba(250,177,10,.05))
+}
+.donar-txt{margin:0 0 .8rem;font-size:.813rem;line-height:1.5;color:#F3E6C4}
+.donar-btns{display:flex;gap:.5rem}
+.donar-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem;
+  min-height:52px;padding:.6rem .5rem;border-radius:99px;text-align:center;text-decoration:none;
+  transition:filter .15s,transform .15s
+}
+.donar-btn:not(.opc-pendiente):hover{filter:brightness(1.08);transform:translateY(-1px)}
+.donar-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.dn-sinpe{background:var(--azafran);color:var(--tinta)}
+.dn-paypal{background:#fff;color:var(--tinta)}
+.dn-tit{font-weight:700;font-size:.875rem}
+.dn-sub{font-size:.688rem;opacity:.8}
+.donar-nota{margin:.7rem 0 0;font-size:.688rem;line-height:1.45;color:#CFC6B2;text-align:center}
+.donar-fin{margin:0 0 .4rem;font-size:.813rem;color:#EDEAE4}
+.donar-lista{margin:0;padding-left:1.1rem;font-size:.813rem;line-height:1.55;color:#C8C3BA}
+.donar-lista li::marker{color:var(--azafran)}
 @media(max-width:559px){
   .pie-libro{justify-content:center}
   .btn-descarga,.opc{min-height:48px}
@@ -720,12 +749,18 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
 }
 .barra-enl a.enl-repro:hover{background:var(--tinta-3)}
 .barra .enl-repro:focus-visible{outline-offset:2px}
-/* En pantallas anchas la píldora va en la esquina derecha de la barra */
+.li-desc{display:flex;align-items:center}
+/* En pantallas anchas: Reproductor en la esquina izquierda, Descargar en la derecha */
 @media(min-width:760px){
-  .li-repro{position:absolute;top:50%;right:max(var(--e3), env(safe-area-inset-right));transform:translateY(-50%);margin:0}
+  .li-repro,.li-desc{position:absolute;top:50%;transform:translateY(-50%);margin:0}
+  .li-repro{left:max(var(--e3), env(safe-area-inset-left))}
+  .li-desc{right:max(var(--e3), env(safe-area-inset-right))}
 }
-@media(min-width:760px) and (max-width:1480px){
-  .barra-int{padding-right:calc(max(var(--e3), env(safe-area-inset-right)) + 8.5rem)}
+@media(min-width:760px) and (max-width:1500px){
+  .barra-int{
+    padding-left:calc(max(var(--e3), env(safe-area-inset-left)) + 8.5rem);
+    padding-right:calc(max(var(--e3), env(safe-area-inset-right)) + 9.5rem)
+  }
 }
 
 
@@ -744,6 +779,8 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
   .li-repro{margin-left:auto;padding-left:.3rem}
   .barra-enl a.enl-repro{min-height:28px;padding:0 .6rem;font-size:.75rem}
   .barra-enl li:first-child a{padding-left:0}
+  /* Descargar sube a la fila del título, a la derecha */
+  .li-desc{position:absolute;top:.35rem;right:max(.5rem, env(safe-area-inset-right))}
 }
 
 /* ==========================================================================
@@ -823,6 +860,7 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
       <li><a href="#claves">Claves</a></li>
       <li><a href="#canciones">Canciones</a></li>
       <li class="li-repro"><a class="enl-repro" href="https://proyecto5y7.github.io/reproductor/" target="_blank" rel="noopener">Reproductor<span aria-hidden="true" style="margin-left:.25rem;font-size:.85em">↗</span></a></li>
+      <li class="li-desc"><a class="enl-repro" href="#libro" id="abrirDescargaBarra" role="button" aria-haspopup="dialog">Descargar libro</a></li>
     </ul>
   </div>
 </nav>
@@ -913,22 +951,38 @@ html{scroll-behavior:smooth;scroll-padding-top:4.6rem}
     <button class="modal-x" id="cerrarDescarga" type="button" aria-label="Cerrar">✕</button>
     <p class="rotulo" style="color:var(--azafran)">El libro</p>
     <h3 class="modal-tit" id="modalTit">Llevá el manual con vos.</h3>
-    <p class="modal-txt">El manual completo es de libre acceso: 304 páginas, con los enlaces a las pistas de cada ritmo. Si te sirve, podés apoyar al autor.</p>
+    <p class="modal-txt">El manual completo es de libre acceso: 304 páginas, con los enlaces a las pistas de cada ritmo.</p>
 
     <a class="opc opc-1" id="opcPdf" href="manual-en-5-y-7.pdf" download target="_blank" rel="noopener">
-      <span class="opc-tit">Descargar el libro</span>
+      <span class="opc-tit opc-tit-grande">Descargar el libro gratis</span>
       <span class="opc-sub">PDF interactivo · 304 páginas · 15 MB</span>
     </a>
 
-    <div class="opc opc-pendiente" id="opcSinpe">
-      <span class="opc-tit">Donar por SINPE Móvil</span>
-      <span class="opc-sub">Por definir</span>
+    <p class="modal-sep">Donaciones</p>
+    <div class="donar-caja">
+      <p class="donar-txt">Si este manual te resulta interesante y querés que el proyecto siga creciendo, podés apoyarlo con una donación.</p>
+      <div class="donar-btns">
+        <div class="donar-btn dn-sinpe opc-pendiente" id="opcSinpe">
+          <span class="dn-tit">SINPE Móvil</span>
+          <span class="dn-sub">Por definir</span>
+        </div>
+        <div class="donar-btn dn-paypal opc-pendiente" id="opcPaypal">
+          <span class="dn-tit">PayPal</span>
+          <span class="dn-sub">Por definir</span>
+        </div>
+      </div>
+      <p class="donar-nota" id="donarNota"></p>
     </div>
 
-    <div class="opc opc-pendiente" id="opcPaypal">
-      <span class="opc-tit">Donar por PayPal</span>
-      <span class="opc-sub">Por definir</span>
-    </div>
+    <p class="modal-sep">Al donar</p>
+    <p class="donar-fin">Los siguientes pasos del proyecto:</p>
+    <ul class="donar-lista">
+      <li>Talleres de exploración de baile.</li>
+      <li>Talleres de exploración de instrumentos armónicos y melódicos.</li>
+      <li>Talleres de percusión.</li>
+      <li>La difusión de los ritmos.</li>
+      <li>Presentaciones del proyecto en universidades y academias de todo el país.</li>
+    </ul>
 
     <p class="modal-pie">El manual es de Daniel Cuenca Alpízar. De libre acceso y sin fines de lucro.</p>
   </dialog>
@@ -1926,7 +1980,14 @@ const PAYPAL        = "https://www.paypal.com/donate/?business=" + encodeURIComp
 
   /* El <dialog> nativo ya trae Esc, foco y fondo; solo falta cerrar al
      tocar fuera del panel. */
-  abrir.addEventListener("click", () => modal.showModal());
+  let quienAbrio = abrir;
+  abrir.addEventListener("click", () => { quienAbrio = abrir; modal.showModal(); });
+  const abrirBarra = document.getElementById("abrirDescargaBarra");
+  if(abrirBarra) abrirBarra.addEventListener("click", e => {
+    e.preventDefault();
+    quienAbrio = abrirBarra;
+    modal.showModal();
+  });
   cerrar.addEventListener("click", () => modal.close());
   modal.addEventListener("click", e => {
     const c = modal.getBoundingClientRect();
@@ -1934,26 +1995,48 @@ const PAYPAL        = "https://www.paypal.com/donate/?business=" + encodeURIComp
                   e.clientX < c.left || e.clientX > c.right;
     if(fuera) modal.close();
   });
-  modal.addEventListener("close", () => abrir.focus());
+  modal.addEventListener("close", () => {
+    quienAbrio.focus();
+    /* Si se abrió por enlace (#donar / #descargar), se limpia para que al
+       recargar no vuelva a aparecer. */
+    if(/^#(donar|donaciones|descargar)$/.test(location.hash))
+      history.replaceState(null, "", location.pathname + location.search);
+  });
+
+  /* Enlaces directos desde otras páginas (por ejemplo, el reproductor):
+     …/libro/#descargar abre esta ventana; …/libro/#donar la abre en Donaciones. */
+  function abrirPorEnlace(){
+    const h = location.hash;
+    if(!/^#(donar|donaciones|descargar)$/.test(h)) return;
+    quienAbrio = abrir;
+    if(!modal.open) modal.showModal();
+    if(h !== "#descargar"){
+      const sep = modal.querySelector(".modal-sep");
+      if(sep) modal.scrollTop = sep.offsetTop - 16;
+    }
+  }
+  abrirPorEnlace();
+  window.addEventListener("hashchange", abrirPorEnlace);
 
   /* SINPE: el número se copia, no se enlaza. */
   const cSinpe = document.getElementById("opcSinpe");
   if(SINPE && cSinpe){
     cSinpe.classList.remove("opc-pendiente");
-    const pie = `${SINPE} · ${SINPE_TITULAR} · tocá para copiar el número`;
-    cSinpe.innerHTML = `<span class="opc-tit">Donar por SINPE Móvil</span>
-      <span class="opc-sub">${pie}</span>`;
+    const pie = `${SINPE} · copiar`;
+    cSinpe.innerHTML = `<span class="dn-tit">SINPE Móvil</span>
+      <span class="dn-sub">${pie}</span>`;
+    cSinpe.setAttribute("aria-label", `Copiar el número de SINPE Móvil ${SINPE}, a nombre de ${SINPE_TITULAR}`);
     cSinpe.style.cursor = "pointer";
     cSinpe.setAttribute("role", "button");
     cSinpe.setAttribute("tabindex", "0");
     const copiar = () => {
-      const sub = cSinpe.querySelector(".opc-sub");
-      const ok  = () => { sub.textContent = "Número copiado: " + SINPE; };
-      const no  = () => { sub.textContent = "Copiá el número: " + SINPE; };
+      const sub = cSinpe.querySelector(".dn-sub");
+      const ok  = () => { sub.textContent = "¡Número copiado!"; };
+      const no  = () => { sub.textContent = "Copialo: " + SINPE; };
       if(navigator.clipboard) navigator.clipboard.writeText(SINPE.replace(/\D/g, "")).then(ok, no);
       else no();
       setTimeout(() => {
-        const sub = cSinpe.querySelector(".opc-sub");
+        const sub = cSinpe.querySelector(".dn-sub");
         if(sub) sub.textContent = pie;
       }, 1800);
     };
@@ -1967,14 +2050,25 @@ const PAYPAL        = "https://www.paypal.com/donate/?business=" + encodeURIComp
   const cPaypal = document.getElementById("opcPaypal");
   if(PAYPAL && cPaypal){
     const a = document.createElement("a");
-    a.className = "opc";
+    a.className = "donar-btn dn-paypal";
     a.id = "opcPaypal";
     a.href = PAYPAL;
     a.target = "_blank";
     a.rel = "noopener";
-    a.innerHTML = `<span class="opc-tit">Donar por PayPal</span>
-      <span class="opc-sub">${PAYPAL_CORREO} · se abre en PayPal ↗</span>`;
+    a.innerHTML = `<span class="dn-tit">PayPal ↗</span>
+      <span class="dn-sub">en dólares</span>`;
+    a.setAttribute("aria-label", `Donar por PayPal a ${PAYPAL_CORREO} (se abre en otra pestaña)`);
     cPaypal.replaceWith(a);
+  }
+
+  /* Datos completos debajo de los botones, para quien done desde otra app. */
+  const nota = document.getElementById("donarNota");
+  if(nota){
+    const partes = [];
+    if(SINPE)  partes.push(`SINPE Móvil ${SINPE} a nombre de ${SINPE_TITULAR}`);
+    if(PAYPAL) partes.push(`PayPal: ${PAYPAL_CORREO}`);
+    nota.textContent = partes.join(" · ");
+    nota.hidden = !partes.length;
   }
 })();
 
