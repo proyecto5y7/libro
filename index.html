@@ -528,7 +528,29 @@ input[type=range]{width:100%;accent-color:var(--azafran);height:26px}
 .opc-sub{font-size:.75rem;color:var(--gris-claro)}
 .opc-1 .opc-sub{color:var(--azafran)}
 .modal-pie{font-size:.75rem;color:var(--gris);margin:var(--e3) 0 0;font-style:italic}
-.modal{max-height:calc(100dvh - 2rem);overflow-y:auto}
+/* La ventana siempre cabe completa en pantalla, también en el teléfono con
+   las barras del navegador visibles (svh), y se desplaza por dentro. */
+.modal{
+  position:fixed;inset:0;margin:auto;height:fit-content;
+  max-height:calc(100vh - 1.5rem);max-height:calc(100svh - 1.5rem);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch
+}
+/* Mientras está abierta, la página de atrás no se mueve. */
+html:has(.modal[open]),html.modal-abierta{overflow:hidden}
+@media(max-width:559px){
+  .modal{width:calc(100vw - 1.5rem);padding:1.4rem 1.15rem 1.2rem}
+  .modal-tit{font-size:1.3rem;margin:.1rem 0 .4rem}
+  .modal-txt{font-size:.813rem;margin-bottom:.9rem}
+  .opc{padding:.65rem .85rem}
+  .opc-tit-grande{font-size:1rem}
+  .modal-sep{margin:.95rem 0 .6rem}
+  .donar-caja{padding:.8rem}
+  .donar-txt{font-size:.75rem;margin-bottom:.65rem}
+  .donar-btn{min-height:48px;padding:.5rem .4rem}
+  .donar-nota{font-size:.625rem;margin-top:.55rem}
+  .donar-fin,.donar-lista{font-size:.75rem}
+  .modal-pie{margin-top:.9rem}
+}
 /* Donaciones: separador con texto, recuadro amarillo y dos botones */
 .modal-sep{
   display:flex;align-items:center;gap:.7rem;margin:var(--e3) 0 var(--e2);
@@ -1995,6 +2017,9 @@ const PAYPAL        = "https://www.paypal.com/donate/?business=" + encodeURIComp
                   e.clientX < c.left || e.clientX > c.right;
     if(fuera) modal.close();
   });
+  /* Respaldo de html:has(...) para navegadores viejos. */
+  new MutationObserver(() => document.documentElement.classList.toggle("modal-abierta", modal.open))
+    .observe(modal, { attributes:true, attributeFilter:["open"] });
   modal.addEventListener("close", () => {
     quienAbrio.focus();
     /* Si se abrió por enlace (#donar / #descargar), se limpia para que al
