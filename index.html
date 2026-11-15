@@ -2062,6 +2062,9 @@ function contar(ruta, titulo){
   catch(e){}
 }
 
+/* Clave pública del contador de descargas (solo puede sumar y leer totales). */
+const CONTADOR_CLAVE = "sb_publishable_XSxUHSrFO4JNVRl4EeYoRA_yBmpaFOe";
+
 const SINPE         = "8308-7429";
 const SINPE_TITULAR = "Daniel Cuenca";
 const PAYPAL_CORREO = "jabalimontuno@gmail.com";
@@ -2129,6 +2132,15 @@ const PAYPAL        = "https://www.paypal.com/donate/?business=" + encodeURIComp
   document.getElementById("opcPdf").addEventListener("click", () => {
     if(verActual === "doble") contar("descarga-doble-pagina", "Descarga: doble página");
     else contar("descarga-pagina-por-pagina", "Descarga: página por página");
+    /* Contador propio (lo que Daniel ve en estadisticas.html). keepalive: el
+       registro sale aunque el navegador se vaya a la descarga. */
+    try{
+      fetch("https://chxjofburbhutchqegsv.supabase.co/rest/v1/rpc/libro5y7_contar_descarga", {
+        method:"POST", keepalive:true,
+        headers:{ apikey:CONTADOR_CLAVE, Authorization:"Bearer " + CONTADOR_CLAVE, "Content-Type":"application/json" },
+        body: JSON.stringify({ v: verActual === "doble" ? "doble" : "pag" })
+      }).catch(() => {});
+    }catch(e){}
   });
 
   /* Respaldo de html:has(...) para navegadores viejos. */
