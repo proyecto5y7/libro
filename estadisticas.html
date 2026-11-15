@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Descargas · Manual en 5 y 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azafran:#FAB10A; --tinta:#050706; --tinta-2:#0E1211; --tinta-3:#1B211F;
+  --gris:#6B665C; --gris-claro:#A9A296; --hueso:#EDEAE4; --blanco:#FFFFFF;
+  --serif:"Spectral",Georgia,serif;
+  --sans:"Archivo",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--tinta);color:var(--hueso);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+.barra{background:var(--azafran);color:var(--tinta);border-bottom:1.5px solid var(--tinta)}
+.barra-int{max-width:960px;margin:0 auto;padding:.9rem 16px;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.marca{font-family:var(--serif);font-size:1.05rem;color:var(--tinta);text-decoration:none}
+.marca i{font-style:italic}
+.volver{font-size:.85rem;font-weight:600;color:var(--tinta);text-decoration:none;border-bottom:1.5px solid rgba(5,7,6,.35)}
+main{max-width:960px;margin:0 auto;padding:2.2rem 16px 3rem}
+.rotulo{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--azafran);margin:0}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,5vw,2.6rem);margin:.3rem 0 .4rem;line-height:1.15}
+.sub{color:var(--gris-claro);font-size:.9rem;margin:0 0 1.8rem;max-width:60ch;line-height:1.5}
+.total{
+  display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;
+  padding:1.3rem 1.4rem;border-radius:10px;background:var(--azafran);color:var(--tinta);margin-bottom:1rem
+}
+.total .num{font-family:var(--serif);font-size:clamp(3rem,12vw,4.6rem);line-height:.9}
+.total .lbl{font-weight:600;font-size:1rem;padding-bottom:.4rem}
+.total .mini{margin-left:auto;font-size:.85rem;padding-bottom:.45rem;opacity:.8}
+.versiones{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-bottom:1rem}
+.tarjeta{background:var(--tinta-2);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.2rem 1.3rem}
+.tarjeta h2{font-size:1rem;margin:0 0 .15rem;display:flex;align-items:center;gap:.5rem}
+.punto{width:.7rem;height:.7rem;border-radius:50%;display:inline-block}
+.p-pag{background:var(--azafran)} .p-doble{background:var(--blanco)}
+.tarjeta .num{font-family:var(--serif);font-size:2.6rem;line-height:1.05;margin:.4rem 0 .8rem}
+.filas{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;border-top:1px solid rgba(255,255,255,.1);padding-top:.8rem}
+.filas div{display:flex;flex-direction:column;gap:.15rem}
+.filas b{font-size:1.15rem}
+.filas span{font-size:.72rem;color:var(--gris-claro)}
+.grafico{background:var(--tinta-2);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:1.2rem 1.3rem}
+.grafico-cab{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.grafico h2{font-size:1rem;margin:0}
+.leyenda{display:flex;gap:1rem;font-size:.78rem;color:var(--gris-claro)}
+.leyenda span{display:flex;align-items:center;gap:.35rem}
+.rango{display:flex;gap:.3rem}
+.rango button{
+  font:inherit;font-size:.78rem;font-weight:600;padding:.35rem .75rem;border-radius:99px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--hueso)
+}
+.rango button[aria-pressed="true"]{background:var(--azafran);color:var(--tinta);border-color:var(--azafran)}
+.barras{display:flex;align-items:flex-end;gap:2px;height:180px;border-bottom:1px solid rgba(255,255,255,.18);position:relative}
+.col{flex:1;display:flex;flex-direction:column-reverse;height:100%;min-width:2px;position:relative}
+.seg-pag{background:var(--azafran)} .seg-doble{background:var(--blanco)}
+.col:hover::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);
+  white-space:nowrap;background:var(--tinta-3);border:1px solid rgba(255,255,255,.2);
+  padding:.3rem .5rem;border-radius:5px;font-size:.72rem;z-index:2;pointer-events:none
+}
+.ejes{display:flex;justify-content:space-between;font-size:.72rem;color:var(--gris-claro);margin-top:.4rem}
+.vacio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gris-claro);font-size:.85rem}
+.pie{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:1.4rem;font-size:.78rem;color:var(--gris)}
+.pie button{
+  font:inherit;font-size:.82rem;font-weight:600;padding:.5rem 1rem;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--azafran);background:transparent;color:var(--azafran)
+}
+.pie button:hover{background:var(--azafran);color:var(--tinta)}
+.nota{font-size:.78rem;color:var(--gris-claro);line-height:1.55;margin:1.6rem 0 0;max-width:70ch}
+.error{background:rgba(180,32,74,.18);border:1px solid rgba(180,32,74,.6);color:#F1D9DF;padding:.8rem 1rem;border-radius:8px;margin-bottom:1rem;font-size:.88rem}
+.cargando{opacity:.45}
+</style>
+</head>
+<body>
+<header class="barra">
+  <div class="barra-int">
+    <a class="marca" href="./">Manual en <i>5 y 7</i></a>
+    <a class="volver" href="./">Volver al sitio</a>
+  </div>
+</header>
+
+<main id="contenido" class="cargando">
+  <p class="rotulo">Estadísticas</p>
+  <h1>Descargas del manual</h1>
+  <p class="sub">Cada vez que alguien toca el botón final de descarga, se suma una aquí. Las horas y los días van en hora de Costa Rica.</p>
+
+  <div class="error" id="error" hidden></div>
+
+  <section class="total" aria-label="Total de descargas">
+    <span class="num" id="totalNum">—</span>
+    <span class="lbl">descargas en total</span>
+    <span class="mini" id="totalHoy">Hoy: —</span>
+  </section>
+
+  <section class="versiones">
+    <article class="tarjeta">
+      <h2><span class="punto p-pag"></span>Página por página</h2>
+      <div class="num" id="pagTotal">—</div>
+      <div class="filas">
+        <div><b id="pagHoy">—</b><span>hoy</span></div>
+        <div><b id="pag7">—</b><span>últimos 7 días</span></div>
+        <div><b id="pag30">—</b><span>últimos 30 días</span></div>
+      </div>
+    </article>
+    <article class="tarjeta">
+      <h2><span class="punto p-doble"></span>Doble página</h2>
+      <div class="num" id="dobleTotal">—</div>
+      <div class="filas">
+        <div><b id="dobleHoy">—</b><span>hoy</span></div>
+        <div><b id="doble7">—</b><span>últimos 7 días</span></div>
+        <div><b id="doble30">—</b><span>últimos 30 días</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="grafico">
+    <div class="grafico-cab">
+      <h2>Por día</h2>
+      <div class="leyenda"><span><i class="punto p-pag"></i>Página por página</span><span><i class="punto p-doble"></i>Doble página</span></div>
+      <div class="rango" role="group" aria-label="Rango de días">
+        <button type="button" data-dias="7" aria-pressed="false">7 días</button>
+        <button type="button" data-dias="30" aria-pressed="true">30 días</button>
+        <button type="button" data-dias="90" aria-pressed="false">90 días</button>
+      </div>
+    </div>
+    <div class="barras" id="barras"></div>
+    <div class="ejes"><span id="ejeIni"></span><span id="ejeFin"></span></div>
+  </section>
+
+  <div class="pie">
+    <span id="actualizado">Cargando…</span>
+    <button type="button" id="refrescar">Actualizar</button>
+  </div>
+
+  <p class="nota">Se cuenta un clic en "Descargar" por cada descarga; no se puede saber si la descarga terminó. Si alguien comparte el enlace directo al PDF, esa descarga no pasa por el botón y no se cuenta.</p>
+</main>
+
+<script>
+const SUPABASE = "https://chxjofburbhutchqegsv.supabase.co";
+const CLAVE    = "sb_publishable_XSxUHSrFO4JNVRl4EeYoRA_yBmpaFOe";
+let dias = 30;
+
+const rpc = (fn, args = {}) => fetch(`${SUPABASE}/rest/v1/rpc/${fn}`, {
+  method: "POST",
+  headers: { apikey: CLAVE, Authorization: `Bearer ${CLAVE}`, "Content-Type": "application/json" },
+  body: JSON.stringify(args),
+  cache: "no-store"
+}).then(r => { if(!r.ok) throw new Error(r.status); return r.json(); });
+
+const n = x => Number(x || 0).toLocaleString("es-CR");
+const fechaCorta = iso => {
+  const [a, m, d] = iso.split("-").map(Number);
+  return new Date(a, m - 1, d).toLocaleDateString("es-CR", { day:"numeric", month:"short" });
+};
+
+function pintarResumen(filas){
+  const de = v => filas.find(f => f.version === v) || {};
+  const pag = de("pag"), doble = de("doble");
+  document.getElementById("totalNum").textContent = n(+pag.total + +doble.total);
+  document.getElementById("totalHoy").textContent = `Hoy: ${n(+pag.hoy + +doble.hoy)}`;
+  for(const [p, f] of [["pag", pag], ["doble", doble]]){
+    document.getElementById(p + "Total").textContent = n(f.total);
+    document.getElementById(p + "Hoy").textContent = n(f.hoy);
+    document.getElementById(p + "7").textContent = n(f.ultimos_7);
+    document.getElementById(p + "30").textContent = n(f.ultimos_30);
+  }
+}
+
+function pintarDias(filas){
+  const caja = document.getElementById("barras");
+  const max = Math.max(1, ...filas.map(f => +f.pag + +f.doble));
+  caja.innerHTML = filas.map(f => {
+    const p = +f.pag, d = +f.doble;
+    return `<div class="col" data-tip="${fechaCorta(f.dia)}: ${p} página · ${d} doble">
+      <div class="seg-pag" style="height:${p / max * 100}%"></div>
+      <div class="seg-doble" style="height:${d / max * 100}%"></div>
+    </div>`;
+  }).join("") + (filas.every(f => +f.pag + +f.doble === 0) ? `<div class="vacio">Todavía no hay descargas en este rango</div>` : "");
+  document.getElementById("ejeIni").textContent = filas.length ? fechaCorta(filas[0].dia) : "";
+  document.getElementById("ejeFin").textContent = filas.length ? fechaCorta(filas[filas.length - 1].dia) : "";
+}
+
+async function cargar(){
+  const main = document.getElementById("contenido"), err = document.getElementById("error");
+  main.classList.add("cargando");
+  try{
+    const [res, porDia] = await Promise.all([rpc("libro5y7_resumen"), rpc("libro5y7_por_dia", { dias })]);
+    pintarResumen(res);
+    pintarDias(porDia);
+    err.hidden = true;
+    document.getElementById("actualizado").textContent =
+      "Actualizado: " + new Date().toLocaleString("es-CR", { dateStyle:"medium", timeStyle:"short" });
+  }catch(e){
+    err.hidden = false;
+    err.textContent = "No se pudieron cargar los datos. Revisá la conexión y tocá Actualizar.";
+  }
+  main.classList.remove("cargando");
+}
+
+document.getElementById("refrescar").addEventListener("click", cargar);
+document.querySelectorAll(".rango button").forEach(b => b.addEventListener("click", () => {
+  dias = +b.dataset.dias;
+  document.querySelectorAll(".rango button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  cargar();
+}));
+cargar();
+setInterval(cargar, 60000);
+</script>
+</body>
+</html>
